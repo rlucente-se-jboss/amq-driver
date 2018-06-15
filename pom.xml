@@ -51,12 +51,12 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.redhat.demo.QueueDriver</mainClass>
+					<mainClass>com.redhat.demo.AmqDriver</mainClass>
 					<arguments>
 						<argument>--queue</argument>
 						<argument>--pub</argument>
 						<argument>--num-msgs</argument>
-						<argument>3</argument>
+						<argument>4</argument>
 					</arguments>
 				</configuration>
 			</plugin>
