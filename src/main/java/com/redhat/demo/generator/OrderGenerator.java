@@ -4,7 +4,9 @@ import java.io.StringWriter;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -12,12 +14,26 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 public class OrderGenerator {
-	private static final String[] COUNTRY_CODES = { "AR", "AU", "AT", "BE", "BR", "CA", "CL", "CN", "CO", "CZ", "DK",
-			"FI", "FR", "DE", "IT", "JP", "MX", "NL", "NO", "PL", "RU", "ZA", "KR", "ES", "SE", "CH", "UK", "US" };
-	private static final String[] CITIES = { "Buenos Aires", "Canberra", "Vienna", "Brussels", "Brasilia", "Ottawa",
-			"Santiago", "Beijing", "Bogota", "Prague", "Copenhagen", "Helsinki", "Paris", "Berlin", "Rome", "Tokyo",
-			"Mexico City", "Amsterdam", "Oslo", "Warsaw", "Moscow", "Pretoria", "Seoul", "Madrid", "Stockholm", "Bern",
-			"London", "Washington, DC" };
+	private static enum Destinations {
+		AR("Buenos Aires"), AU("Canberra"), AT("Vienna"), BE("Brussels"), BR("Brasilia"), CA("Ottowa"), CL(
+				"Santiago"), CN("Beijing"), CO("Bogota"), CZ("Prague"), DK("Copenhagen"), FI(
+						"Helsinki"), FR("Paris"), DE("Berlin"), IT("Rome"), JP("Tokyo"), MX("Mexico City"), NL(
+								"Amsterdam"), NO("Oslo"), PL("Warsaw"), RU("Moscow"), ZA("Pretoria"), KR("Seoul"), ES(
+										"Madrid"), SE("Stockholm"), CH("Bern"), UK("London"), US("Washington, DC");
+
+		private String city;
+
+		Destinations(String city) {
+			this.city = city;
+		}
+
+		public String getCity() {
+			return city;
+		}
+	}
+
+	private static final List<Destinations> DEST_VALUES = Collections.unmodifiableList(Arrays.asList(Destinations.values()));
+	private static final int DEST_SIZE = DEST_VALUES.size();
 
 	// Based on https://nationalzoo.si.edu/animals/list, every animal at the
 	// Washington DC National Zoo
@@ -63,7 +79,7 @@ public class OrderGenerator {
 	private static final int BASE_ID = 4000;
 	private static final int MAX_ORDERLINES = 4;
 	private static final int MAX_ANIMAL_QUANTITY = 50;
-	
+
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private static final Random RAND = new SecureRandom();
 
@@ -92,23 +108,22 @@ public class OrderGenerator {
 		Customer customer = new Customer();
 		customer.setId("B" + randomId);
 
-		int countryIdx = RAND.nextInt(COUNTRY_CODES.length);
-		customer.setName(CITIES[countryIdx] + " Zoo");
-		customer.setCity(CITIES[countryIdx]);
-		customer.setCountry(COUNTRY_CODES[countryIdx]);
+		Destinations dest = DEST_VALUES.get(RAND.nextInt(DEST_SIZE));
+		customer.setName(dest.getCity() + " Zoo");
+		customer.setCity(dest.getCity());
+		customer.setCountry(dest.name());
 
 		order.setCustomer(customer);
 		order.setDate(date);
 
 		int numOrderlines = RAND.nextInt(MAX_ORDERLINES) + 1;
 		List<OrderLine> lines = new ArrayList<OrderLine>(numOrderlines);
-		
+
 		for (int i = 0; i < numOrderlines; i++) {
 			Article article = new Article();
 
 			int animalIdx = RAND.nextInt(ANIMALS.length);
 			String id = String.format("Z%04d", animalIdx);
-
 			article.setId(id);
 			article.setDescription(ANIMALS[animalIdx]);
 
@@ -121,9 +136,9 @@ public class OrderGenerator {
 
 		OrderLines orderlines = new OrderLines();
 		orderlines.setOrderLines(lines);
-		
+
 		order.setOrderlines(orderlines);
-		
+
 		return order;
 	}
 }
