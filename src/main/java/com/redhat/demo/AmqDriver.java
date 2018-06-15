@@ -38,28 +38,32 @@ public class AmqDriver {
 		try {
 			CmdLineHandler handler = new CmdLineHandler();
 			handler.parse(args);
-			
+
+			initialContext = new InitialContext();
+			Queue queue = (Queue) initialContext.lookup("queue/orderQueue");
+			Topic topic = (Topic) initialContext.lookup("topic/orderTopic");
+			ConnectionFactory cf = (ConnectionFactory) initialContext.lookup("ConnectionFactory");
+
+			connection = cf.createConnection();
+			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageProducer queueProducer = session.createProducer(queue);
+			MessageProducer topicProducer = session.createProducer(topic);
+
 			OrderGenerator generator = new OrderGenerator();
-			String orderXml = generator.toXml();
-			
-			System.out.println(orderXml);
-			
-//			System.out.println("   isPub : " + handler.isPub());
-//			System.out.println(" isQueue : " + handler.isQueue());
-//			System.out.println("num msgs : " + handler.getNumMsgs());
-//			System.exit(0);
-//			
-//			initialContext = new InitialContext();
-//			Queue queue = (Queue) initialContext.lookup("queue/orderQueue");
-//			Topic topic = (Topic) initialContext.lookup("topic/orderTopic");
-//			ConnectionFactory cf = (ConnectionFactory) initialContext.lookup("ConnectionFactory");
-//			
-//			connection = cf.createConnection();
-//			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//			MessageProducer producer = session.createProducer(queue);
-//			TextMessage message = session.createTextMessage("This is a text message");
-//			System.out.println("Sent message: " + message.getText());
-//			producer.send(message);
+
+			TextMessage msg;
+
+			for (int i = 0; i < handler.getNumMsgs(); i++) {
+				if (handler.isQueue()) {
+					msg = session.createTextMessage(generator.toXml());
+					queueProducer.send(msg);
+				}
+
+				if (handler.isPub()) {
+					msg = session.createTextMessage(generator.toXml());
+					topicProducer.send(msg);
+				}
+			}
 		} finally {
 			if (initialContext != null) {
 				initialContext.close();
