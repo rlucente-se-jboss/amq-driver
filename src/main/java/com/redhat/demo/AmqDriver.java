@@ -83,6 +83,8 @@ public class AmqDriver {
 			
 			connection.stop();
 			System.out.println("topic msgs sent: " + sentCount + ", received: " + recvCount);
+
+                        System.exit(0);  // to prevent hang on exec:java
 		} catch (Exception e) {
 			e.printStackTrace(System.err);;
 		} finally {
