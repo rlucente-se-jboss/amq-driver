@@ -52,13 +52,13 @@ public class AmqDriver {
 			MessageProducer topicProducer = session.createProducer(topic);
 
 			MessageConsumer topicConsumer = session.createConsumer(topic);
-			
+
 			OrderGenerator generator = new OrderGenerator();
 
 			TextMessage msg;
 			int sentCount = 0;
 			int recvCount = 0;
-			
+
 			for (int i = 0; i < handler.getNumMsgs(); i++) {
 				if (handler.isQueue()) {
 					msg = session.createTextMessage(generator.toXml());
@@ -71,22 +71,23 @@ public class AmqDriver {
 					++sentCount;
 				}
 			}
-			
+
 			connection.start();
-			
+
 			for (int i = 0; i < handler.getNumMsgs(); i++) {
 				Message received = topicConsumer.receive();
 				if (received != null) {
 					++recvCount;
 				}
 			}
-			
+
 			connection.stop();
 			System.out.println("topic msgs sent: " + sentCount + ", received: " + recvCount);
 
-                        System.exit(0);  // to prevent hang on exec:java
+			System.exit(0); // to prevent hang on exec:java
 		} catch (Exception e) {
-			e.printStackTrace(System.err);;
+			e.printStackTrace(System.err);
+			;
 		} finally {
 			if (initialContext != null) {
 				initialContext.close();
