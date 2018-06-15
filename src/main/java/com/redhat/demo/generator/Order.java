@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(namespace = "http://com.redhat.demo/order")
+@XmlRootElement
 public class Order {
 	private String id;
 	private Customer customer;

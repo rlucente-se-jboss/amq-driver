@@ -35,7 +35,7 @@ public class OrderGenerator {
 	private static final List<Destinations> DEST_VALUES = Collections.unmodifiableList(Arrays.asList(Destinations.values()));
 	private static final int DEST_SIZE = DEST_VALUES.size();
 
-	// Based on https://nationalzoo.si.edu/animals/list, every animal at the
+	// Based on https://nationalzoo.si.edu/animals/list, basically every animal at the
 	// Washington DC National Zoo
 	private static final String[] ANIMALS = { "Abyssinian ground hornbill", "African clawed frog", "Aldabra tortoise",
 			"Allen's swamp monkey", "Alligator Snapping Turtle", "Alpaca", "American alligator", "American bison",
