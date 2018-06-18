@@ -32,10 +32,12 @@ public class OrderGenerator {
 		}
 	}
 
-	private static final List<Destinations> DEST_VALUES = Collections.unmodifiableList(Arrays.asList(Destinations.values()));
+	private static final List<Destinations> DEST_VALUES = Collections
+			.unmodifiableList(Arrays.asList(Destinations.values()));
 	private static final int DEST_SIZE = DEST_VALUES.size();
 
-	// Based on https://nationalzoo.si.edu/animals/list, basically every animal at the
+	// Based on https://nationalzoo.si.edu/animals/list, basically every animal at
+	// the
 	// Washington DC National Zoo
 	private static final String[] ANIMALS = { "Abyssinian ground hornbill", "African clawed frog", "Aldabra tortoise",
 			"Allen's swamp monkey", "Alligator Snapping Turtle", "Alpaca", "American alligator", "American bison",
@@ -49,7 +51,7 @@ public class OrderGenerator {
 			"Coronated tree frog", "Cow", "Cuban crocodile", "Dama gazelle", "Damaraland mole rat", "Degu",
 			"Dwarf mongoose", "Eastern box turtle", "Eastern diamondback rattlesnake", "Eastern indigo snake",
 			"Eastern red-backed salamander", "Eld's deer", "Electric eel", "Emerald tree monitor", "Emperor newt",
-			"Exhibits", "Eyelash palm pitviper", "False water cobra", "Fennec fox", "Fiji banded iguana", "Fishing cat",
+			"Eyelash palm pitviper", "False water cobra", "Fennec fox", "Fiji banded iguana", "Fishing cat",
 			"Flagtail characin", "Fly River turtle", "Fowler's toad", "Freshwater stingray", "Gaboon viper",
 			"Geoffroy's marmoset", "Gharial", "Giant leaf-tailed gecko", "Giant panda", "Gila monster", "Goat",
 			"Goeldi's monkey", "Golden lion tamarin", "Golden mantella frog", "Golden-headed lion tamarin",
